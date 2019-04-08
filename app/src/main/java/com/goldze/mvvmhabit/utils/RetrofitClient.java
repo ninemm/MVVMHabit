@@ -3,6 +3,8 @@ package com.goldze.mvvmhabit.utils;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.goldze.mvvmhabit.BuildConfig;
+
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -11,7 +13,6 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import me.goldze.mvvmhabit.BuildConfig;
 import me.goldze.mvvmhabit.http.cookie.CookieJarImpl;
 import me.goldze.mvvmhabit.http.cookie.store.PersistentCookieStore;
 import me.goldze.mvvmhabit.http.interceptor.BaseInterceptor;
@@ -86,12 +87,12 @@ public class RetrofitClient {
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式
-                        .loggable(true) //是否开启日志打印
+                        .loggable(BuildConfig.DEBUG) //是否开启日志打印
                         .setLevel(Level.BASIC) //打印的等级
                         .log(Platform.INFO) // 打印类型
                         .request("Request") // request的Tag
                         .response("Response")// Response的Tag
-                        .addHeader("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 ") // 添加请求头token
+                        .addHeader("log-header", "I am the log request header.") // 添加打印头, 注意 key 和 value 都不能是中文
                         .build()
                 )
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)

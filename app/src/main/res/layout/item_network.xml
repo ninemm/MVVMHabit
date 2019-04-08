@@ -3,11 +3,11 @@
 
     <data>
 
-        <import type="com.goldze.mvvmhabit.ui.vm.NetWorkItemViewModel" />
+        <import type="com.goldze.mvvmhabit.ui.network.NetWorkItemViewModel" />
 
         <variable
             name="viewModel"
-            type="NetWorkItemViewModel" />
+            type="com.goldze.mvvmhabit.ui.network.NetWorkItemViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -32,6 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:text="@{viewModel.entity.name}" />
+            android:text="@{viewModel.entity.id == -1 ? viewModel.getPosition() + viewModel.entity.name : viewModel.entity.name}" />
     </LinearLayout>
 </layout>

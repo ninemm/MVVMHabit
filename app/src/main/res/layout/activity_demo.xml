@@ -3,7 +3,7 @@
 
     <data>
 
-        <import type="com.goldze.mvvmhabit.ui.vm.DemoViewModel" />
+        <import type="com.goldze.mvvmhabit.ui.main.DemoViewModel" />
 
         <variable
             name="viewModel"
@@ -26,6 +26,12 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="RecycleView多布局"
+            binding:onClickCommand="@{viewModel.rvMultiClick}" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="底部Tab按钮"
             binding:onClickCommand="@{viewModel.startTabBarClick}" />
 
@@ -34,6 +40,12 @@
             android:layout_height="wrap_content"
             android:text="ViewPager绑定"
             binding:onClickCommand="@{viewModel.viewPagerBindingClick}" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ViewPager+Fragment"
+            binding:onClickCommand="@{viewModel.viewPagerGroupBindingClick}" />
 
         <Button
             android:layout_width="match_parent"

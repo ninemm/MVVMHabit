@@ -1,35 +1,35 @@
 package com.goldze.mvvmhabit.ui.viewpager.vm;
 
-import android.content.Context;
+import android.app.Application;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.support.annotation.NonNull;
 
 import com.goldze.mvvmhabit.BR;
 import com.goldze.mvvmhabit.R;
+import com.goldze.mvvmhabit.ui.viewpager.adapter.ViewPagerBindingAdapter;
 
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.binding.command.BindingConsumer;
+import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.tatarka.bindingcollectionadapter2.BindingViewPagerAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
- * 所有例子仅做参考,理解如何使用才最重要。
+ * 所有例子仅做参考,千万不要把它当成一种标准,毕竟主打的不是例子,业务场景繁多,理解如何使用才最重要。
  * Created by goldze on 2018/7/18.
  */
 
 public class ViewPagerViewModel extends BaseViewModel {
-
-    public ViewPagerViewModel(Context context) {
-        super(context);
-    }
-
-    @Override
-    public void onCreate() {
+    public SingleLiveEvent<String> itemClickEvent = new SingleLiveEvent<>();
+    public ViewPagerViewModel(@NonNull Application application) {
+        super(application);
         //模拟3个ViewPager页面
         for (int i = 1; i <= 3; i++) {
-            items.add(new ViewPagerItemViewModel(context, "第" + i + "个页面"));
+            ViewPagerItemViewModel itemViewModel = new ViewPagerItemViewModel(this, "第" + i + "个页面");
+            items.add(itemViewModel);
         }
     }
 
@@ -44,8 +44,6 @@ public class ViewPagerViewModel extends BaseViewModel {
             return "条目" + position;
         }
     };
-    //给ViewPager添加Adpter，请使用自定义的Adapter继承BindingViewPagerAdapter，重写onBindBinding方法
-    public final BindingViewPagerAdapter<ViewPagerItemViewModel> adapter = new BindingViewPagerAdapter<>();
     //ViewPager切换监听
     public BindingCommand<Integer> onPageSelectedCommand = new BindingCommand<>(new BindingConsumer<Integer>() {
         @Override

@@ -1,26 +1,22 @@
-## 更新日志
-**v2.0.6：2018年7月19日**
+## 最新日志
+**v3.0.7：2019年1月25日**
 
-- 优化框架性能、基类逻辑，新增绑定命令；
-- 补充例子程序及注释；
-- 升级/修改第三方依赖库；
-- 补充文档说明。
-***
-**v2.0.0：2018年4月10日**
-
-- 全面升级RxJava2；
-- 优化绑定回调方式；
+- 优化框架代码，解决已知Bug；
+- 新增ViewPager+Fragment例子；
+- 新增RecycleView多布局例子；
 - 升级第三方依赖库；
-- 微调例子程序。
+- 修改文档说明。
+#### [更多日志](./UpdateLog.md)
+***
 
-**注：v1.x已停止维护，建议使用v2.x。**
+**注：[1.x-废弃版（最后版本：1.2.6.1）](https://github.com/goldze/MVVMHabit/tree/1.2.6.1)、[2.x-顺手版（最后版本：2.0.10）](https://github.com/goldze/MVVMHabit/tree/2.0.10)已停止维护，建议使用当前[3.x-健壮版（最后版本：3.1.0）](https://github.com/goldze/MVVMHabit)。**
 
 > **原文地址：** [https://github.com/goldze/MVVMHabit](https://github.com/goldze/MVVMHabit)
 
-<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=a8db5d8f95bc432606fd79c3d6e494e8a97401671c27de4a8fe975382a441a3e"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="MVVMHabit-Family" title="MVVMHabit-Family"></a>
+<a target="_blank" href="http://qm.qq.com/cgi-bin/qm/qr?k=Pvi-65bZN6fRly3VBC8F3fS7A-Pjinna"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="MVVMHabit-Family" title="MVVMHabit-Family"></a>
 # MVVMHabit
 ##
-目前，android流行的MVC、MVP模式的开发框架很多，然而一款基于MVVM模式开发框架却很少。**MVVMHabit则是一款以谷歌的databinding为基础，整合Okhttp+RxJava+Retrofit+Glide等流行模块，加上各种原生控件自定义的BindingAdapter，让事件与数据源完美绑定的一款容易上瘾的实用性快速开发框架**。从此告别findViewById()，告别setText()，告别setOnClickListener()...
+目前，android流行的MVC、MVP模式的开发框架很多，然而一款基于MVVM模式开发框架却很少。**MVVMHabit是以谷歌DataBinding+LiveData+ViewModel框架为基础，整合Okhttp+RxJava+Retrofit+Glide等流行模块，加上各种原生控件自定义的BindingAdapter，让事件与数据源完美绑定的一款容易上瘾的实用性MVVM快速开发框架**。从此告别findViewById()，告别setText()，告别setOnClickListener()...
 
 ## 框架流程
 ![](./img/fc.png) 
@@ -28,11 +24,11 @@
 ## 框架特点
 - **快速开发**
 
-	只需要写项目的业务逻辑，不用再去关心网络请求、权限申请、view的生命周期等问题，撸起袖子就是干。
+	只需要写项目的业务逻辑，不用再去关心网络请求、权限申请、View的生命周期等问题，撸起袖子就是干。
 
 - **维护方便**
 
-	MVVM开发模式，低耦合，逻辑分明。model层负责将请求的数据交给ViewModel；ViewModel层负责将请求到的数据做业务逻辑处理，最后交给View层去展示，与View一一对应；View层只负责界面绘制刷新，不处理业务逻辑，非常适合分配独立模块开发。
+	MVVM开发模式，低耦合，逻辑分明。Model层负责将请求的数据交给ViewModel；ViewModel层负责将请求到的数据做业务逻辑处理，最后交给View层去展示，与View一一对应；View层只负责界面绘制刷新，不处理业务逻辑，非常适合分配独立模块开发。
 
 - **流行框架**
 
@@ -53,11 +49,11 @@
 	4. 通用的网络请求异常监听，根据不同的状态码或异常设置相应的message。
 	5. 全局的异常捕获，程序发生异常时不会崩溃，可跳入异常界面重启应用。
 	6. 全局事件回调，提供RxBus、Messenger两种回调方式。
-	7. 全局任意位置一行代码实现文件下载。
+	7. 全局任意位置一行代码实现文件进度下载监听（暂不支持多文件进度监听）。
 
 
 ## 1、准备工作
-> 网上的很多有关MVVM的资料，在此就不再阐述什么是MVVM了，不清楚的朋友可以先去了解一下。
+> 网上的很多有关MVVM的资料，在此就不再阐述什么是MVVM了，不清楚的朋友可以先去了解一下。[todo-mvvm-live](https://github.com/googlesamples/android-architecture/tree/todo-mvvm-live)
 ### 1.1、启用databinding
 在主工程app的build.gradle的android {}中加入：
 ```gradle
@@ -72,7 +68,9 @@ dataBinding {
 ```gradle
 allprojects {
     repositories {
-        ...
+		...
+        google()
+        jcenter()
         maven { url 'https://jitpack.io' }
     }
 }
@@ -81,7 +79,7 @@ allprojects {
 ```gradle
 dependencies {
     ...
-    implementation 'com.github.goldze:MVVMHabit:2.0.8'
+    implementation 'com.github.goldze:MVVMHabit:3.1.0'
 }
 ```
 或
@@ -93,7 +91,7 @@ dependencies {
     implementation project(':mvvmhabit')
 }
 ```
-> 旧版本 api 'com.github.goldze:MVVMHabit:1.2.6.1'
+
 ### 1.3、配置config.gradle
 如果不是远程依赖，而是下载的例子程序，那么还需要将例子程序中的config.gradle放入你的主项目根目录中，然后在根目录build.gradle的第一行加入：
 
@@ -120,7 +118,14 @@ dependencies = [] 是依赖第三方库的配置，可以加新库，但不要�
 ```
 配置Application：
 
-继承**mvvmhabit**中的BaseApplication，在你的自己AppApplication中配置
+继承**mvvmhabit**中的BaseApplication，或者调用
+
+```java
+BaseApplication.setApplication(this);
+```
+来初始化你的Application
+
+可以在你的自己AppApplication中配置
 
 ```java
 //是否开启日志打印
@@ -151,7 +156,7 @@ CaocConfig.Builder.create()
 <layout>
     <data>
         <variable
-            type="com.goldze.mvvmhabit.ui.vm.LoginViewModel"
+            type="com.goldze.mvvmhabit.ui.login.LoginViewModel"
             name="viewModel"
         />
     </data>
@@ -162,47 +167,62 @@ CaocConfig.Builder.create()
 
 > variable - type：类的全路径 <br>variable - name：变量名
 
-##### 2.1.2、继承Base
+##### 2.1.2、继承BaseActivity
 
 LoginActivity继承BaseActivity
 ```java
+
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> {
-    ....
+    //ActivityLoginBinding类是databinding框架自定生成的,对activity_login.xml
+    @Override
+    public int initContentView(Bundle savedInstanceState) {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    public int initVariableId() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public LoginViewModel initViewModel() {
+        //View持有ViewModel的引用，如果没有特殊业务处理，这个方法可以不重写
+        return ViewModelProviders.of(this).get(LoginViewModel.class);
+    }
 }
 ```
 > 保存activity_login.xml后databinding会生成一个ActivityLoginBinding类。（如果没有生成，试着点击Build->Clean Project）
 
-BaseActivity是一个抽象类，有两个泛型参数，一个是ViewDataBinding，另一个是BaseViewModel，上面的ActivityLoginBinding则是继承的ViewDataBinding作为第一个泛型参数，LoginViewModel继承BaseViewModel作为第二个泛型参数。
+BaseActivity是一个抽象类，有两个泛型参数，一个是ViewDataBinding，另一个是BaseViewModel，上面的ActivityLoginBinding则是继承的ViewDataBinding作为第一个泛型约束，LoginViewModel继承BaseViewModel作为第二个泛型约束。
 
-重写BaseActivity的三个抽象方法
+重写BaseActivity的二个抽象方法
+
+initContentView() 返回界面layout的id<br>
+initVariableId() 返回变量的id，对应activity_login中name="viewModel"，就像一个控件的id，可以使用R.id.xxx，这里的BR跟R文件一样，由系统生成，使用BR.xxx找到这个ViewModel的id。<br>
+
+选择性重写initViewModel()方法，返回ViewModel对象
 ```java
 @Override
-public int initContentView() {
-    return R.layout.activity_login;
-}
-
-@Override
-public int initVariableId() {
-    return BR.viewModel;
-}
-
-@Override
 public LoginViewModel initViewModel() {
-    //View持有ViewModel的引用 (考虑到框架适用性，这里暂时没有用Dagger2解耦)
-    return new LoginViewModel(this);
+    //View持有ViewModel的引用，如果没有特殊业务处理，这个方法可以不重写
+    return ViewModelProviders.of(this).get(LoginViewModel.class);
 }
 ```
-initContentView() 返回界面layout的id<br>
-initVariableId() 返回变量的id，对应activity_login中variable - name：变量名，就像一个控件的id，可以使用R.id.xxx，这里的BR跟R文件一样，由系统生成，使用BR.xxx找到这个ViewModel的id。<br>
-initViewModel() 返回ViewModel对象
+
+**注意：** 不重写initViewModel()，默认会创建LoginActivity中第二个泛型约束的LoginViewModel，如果没有指定第二个泛型，则会创建BaseViewModel
+
+##### 2.1.3、继承BaseViewModel
 
 LoginViewModel继承BaseViewModel
 ```java
-public LoginViewModel(Context context) {
-    super(context);
+public class LoginViewModel extends BaseViewModel {
+    public LoginViewModel(@NonNull Application application) {
+        super(application);
+    }
+    ....
 }
 ```
-在构造方法中调用super(context) 将上下文交给父类，即可使用父类的showDialog()、startActivity()等方法。在这个LoginViewModel中就可以尽情的写你的逻辑了！
+BaseViewModel与BaseActivity通过LiveData来处理常用UI逻辑，即可在ViewModel中使用父类的showDialog()、startActivity()等方法。在这个LoginViewModel中就可以尽情的写你的逻辑了！
 > BaseFragment的使用和BaseActivity一样，详情参考Demo。
 
 ### 2.2、数据绑定
@@ -378,8 +398,10 @@ layoutManager控制是线性(包含水平和垂直)排列还是网格排列，li
 > `<import type="android.support.v7.widget.LinearLayoutManager" />`
 
 
-这样绑定后，在ViewModel中调用ObservableList的add()方法，添加一个Item的ViewModel，界面上就会实时绘制出一个Item。在Item对应的ViewModel中，同样可以以绑定的形式完成逻辑
-> 可以在请求到数据后，循环添加`observableList.add(new NetWorkItemViewModel(context, entity));`详细可以参考例子程序中NetWorkViewModel类
+这样绑定后，在ViewModel中调用ObservableList的add()方法，添加一个ItemViewModel，界面上就会实时绘制出一个Item。在Item对应的ViewModel中，同样可以以绑定的形式完成逻辑
+> 可以在请求到数据后，循环添加`observableList.add(new NetWorkItemViewModel(NetWorkViewModel.this, entity));`详细可以参考例子程序中NetWorkViewModel类。
+
+**注意：** 在以前的版本中，ItemViewModel是继承BaseViewModel，传入Context，新版本3.x中可继承ItemViewModel，传入当前页面的ViewModel
 
 更多RecyclerView、ListView、ViewPager等绑定方式，请参考 [https://github.com/evant/binding-collection-adapter](https://github.com/evant/binding-collection-adapter)
 
@@ -453,11 +475,11 @@ OkHttpClient okHttpClient = new OkHttpClient.Builder()
     .build();
 ```
 #### 2.3.4、绑定生命周期
-请求在ViewModel层，且持有View的引用，所以可以直接在ViewModel中绑定请求的生命周期，View与请求共存亡。
+请求在ViewModel层。默认在BaseActivity中注入了LifecycleProvider对象到ViewModel，用于绑定请求的生命周期，View与请求共存亡。
 ```java
 RetrofitClient.getInstance().create(DemoApiService.class)
     .demoGet()
-    .compose(RxUtils.bindToLifecycle(context)) // 请求与View周期同步
+    .compose(RxUtils.bindToLifecycle(getLifecycleProvider())) // 请求与View周期同步
     .compose(RxUtils.schedulersTransformer())  // 线程调度
     .compose(RxUtils.exceptionTransformer())   // 网络错误的异常转换
     .subscribe(new Consumer<BaseResponse<DemoEntity>>() {
@@ -473,8 +495,8 @@ RetrofitClient.getInstance().create(DemoApiService.class)
     });
 
 ```
-在请求时关键需要加入组合操作符`.compose(RxUtils.bindToLifecycle(context))`<br>
-**注意：** 如果你没有使用 **mvvmabit** 里面的BaseActivity或BaseFragment，使用自己定义Base，那么需要让你自己的Activity继承RxAppCompatActivity、Fragment继承RxFragment才能用`RxUtils.bindToLifecycle(context)`方法。
+在请求时关键需要加入组合操作符`.compose(RxUtils.bindToLifecycle(getLifecycleProvider()))`<br>
+**注意：** 由于BaseActivity/BaseFragment都实现了LifecycleProvider接口，并且默认注入到ViewModel中，所以在调用请求方法时可以直接调用getLifecycleProvider()拿到生命周期接口。如果你没有使用 **mvvmabit** 里面的BaseActivity或BaseFragment，使用自己定义的Base，那么需要让你自己的Activity继承RxAppCompatActivity、Fragment继承RxFragment才能用`RxUtils.bindToLifecycle(lifecycle)`方法。
 #### 2.3.5、网络异常处理
 网络异常在网络请求中非常常见，比如请求超时、解析错误、资源不存在、服务器内部错误等，在客户端则需要做相应的处理(当然，你可以把一部分异常甩锅给网络，比如当出现code 500时，提示：请求超时，请检查网络连接，此时偷偷将异常信息发送至后台(手动滑稽))。<br>
 
@@ -538,7 +560,7 @@ public static final String TOKEN_LOGINVIEWMODEL_REFRESH = "token_loginviewmodel_
 //参数1：接受人（上下文）
 //参数2：定义的token
 //参数3：执行的回调监听
-Messenger.getDefault().register(context, LoginViewModel.TOKEN_LOGINVIEWMODEL_REFRESH, new BindingAction() {
+Messenger.getDefault().register(this, LoginViewModel.TOKEN_LOGINVIEWMODEL_REFRESH, new BindingAction() {
     @Override
     public void call() {
 	
@@ -550,7 +572,7 @@ Messenger.getDefault().register(context, LoginViewModel.TOKEN_LOGINVIEWMODEL_REF
 //参数2：定义的token
 //参数3：实体的泛型约束
 //参数4：执行的回调监听
-Messenger.getDefault().register(context, LoginViewModel.TOKEN_LOGINVIEWMODEL_REFRESH, String.class, new Consumer<String>() {
+Messenger.getDefault().register(this, LoginViewModel.TOKEN_LOGINVIEWMODEL_REFRESH, String.class, new Consumer<String>() {
     @Override
     public void accept(String s) throws Exception {
                 
@@ -573,7 +595,7 @@ Messenger.getDefault().send("refresh",LoginViewModel.TOKEN_LOGINVIEWMODEL_REFRES
 > 为了避免大量使用Messenger，建议只在ViewModel与ViewModel之间使用，View与ViewModel之间采用ObservableField去监听UI上的逻辑，可在继承了Base的Activity或Fragment中重写initViewObservable()方法来初始化UI的监听
 
 
-注册了监听，当然也要解除它。在BaseActivity、BaseFragment的onDestroy()方法里已经调用`Messenger.getDefault().unregister(this);`解除注册，所以不用担心忘记解除导致的逻辑错误和内存泄漏。
+注册了监听，当然也要解除它。在BaseActivity、BaseFragment的onDestroy()方法里已经调用`Messenger.getDefault().unregister(viewModel);`解除注册，所以不用担心忘记解除导致的逻辑错误和内存泄漏。
 ### 3.2、文件下载
 文件下载几乎是每个app必备的功能，图文的下载，软件的升级等都要用到，mvvmhabit使用Retrofit+Okhttp+RxJava+RxBus实现一行代码监听带进度的文件下载。
 
@@ -713,6 +735,7 @@ ImageUtils.compressWithRx(filePaths, new Subscriber() {
 
 ### 4.1、编译错误解决方法
 > 使用databinding其实有个缺点，就是会遇到一些编译错误，而AS不能很好的定位到错误的位置，这对于刚开始使用databinding的开发者来说是一个比较郁闷的事。那么我在此把我自己在开发中遇到的各种编译问题的解决方法分享给大家，希望这对你会有所帮助。
+
 ##### 4.1.1、绑定错误
 绑定错误是一个很常见的错误，基本都会犯。比如TextView的 `android:text=""` ，本来要绑定的是一个String类型，结果你不小心，可能绑了一个Boolean上去，或者变量名写错了，这时候编辑器不会报红错，而是在点编译运行的时候，在AS的Messages中会出现错误提示，如下图：
 
@@ -721,13 +744,14 @@ ImageUtils.compressWithRx(filePaths, new Subscriber() {
 解决方法：把错误提示拉到最下面 (上面的提示找不到BR类这个不要管它)，看最后一个错误 ，这里会提示是哪个xml出了错，并且会定位到行数，按照提示找到对应位置，即可解决该编译错误的问题。
 
 **注意：** 行数要+1，意思是上面报出第33行错误，实际是第34行错误，AS定位的不准确 (这可能是它的一个bug)
-##### 4.1.2、xml导包错误
 
+##### 4.1.2、xml导包错误
 在xml中需要导入ViewModel或者一些业务相关的类，假如在xml中导错了类，那一行则会报红，但是res/layout却没有错误提示，有一种场景，非常特殊，不容易找出错误位置。就是你写了一个xml，导入了一个类，比如XXXUtils，后来因为业务需求，把那个XXXUtils删了，这时候res/layout下不会出现任何错误，而你在编译运行的时候，才会出现错误日志。苦逼的是，不会像上面那样提示哪一个xml文件，哪一行出错了，最后一个错误只是一大片的报错报告。如下图：
 
 <img src="./img/error2.png" width="640" hegiht="640" align=center />
 
-解决方法：同样找到最后一个错误提示，找到Cannot resolve type for **xxx**这一句 (xxx是类名)，然后使用全局搜索 (Ctrl+H) ，搜索哪个xml引用了这个类，跟踪点击进去，在xml就会出现一个红错，即可解析该编译错误的问题。
+解决方法：同样找到最后一个错误提示，找到Cannot resolve type for **xxx**这一句 (xxx是类名)，然后使用全局搜索 (Ctrl+H) ，搜索哪个xml引用了这个类，跟踪点击进去，在xml就会出现一个红错，看到错误你就会明白了，这样就可解决该编译错误的问题。
+
 ##### 4.1.3、build错误
 构建多module工程时，如出现【4.1.1、绑定错误】，且你能确定这个绑定是没有问题的，经过修改后出现下图错误：
 
@@ -736,12 +760,23 @@ ImageUtils.compressWithRx(filePaths, new Subscriber() {
 解决方法：
 这种是databinding比较大的坑，清理、重构和删build都不起作用，网上很难找到方法。经过试验，解决办法是手动创建异常中提到的文件夹，或者拷贝上一个没有报错的版本中对应的文件夹，可以解决这个异常
 
+##### 4.1.4、自动生成类错误
+有时候在写完xml时，databinding没有自动生成对应的Binding类及属性。比如新建了一个activity_login.xml，按照databinding的写法加入```<layout> <variable>```后，理论上会自动对应生成ActivityLoginBinding.java类和variable的属性，可能是as对databding的支持还不够吧，有时候偏偏就不生成，导致BR.xxx报红等一些莫名的错误。
+
+解决方法：其实确保自己的写法没有问题，是可以直接运行的，报红不一定是你写的有问题，也有可能是编译器抽风了。或者使用下面的办法</br>
+第一招：Build->Clean Project；</br>第二招：Build->Rebuild Project；</br>第三招：重启大法。
+
 ## 混淆
 例子程序中给出了最新的【MVVMHabit混淆规则】，包含MVVMHabit中依赖的所有第三方library，可以将规则直接拷贝到自己app的混淆规则中。在此基础上你只需要关注自己业务代码以及自己引入第三方的混淆，【MVVMHabit混淆规则】请参考app目录下的[proguard-rules.pro](./app/proguard-rules.pro)文件。
+
+## 组件化
+进阶Android组件化方案，请移步：[MVVMHabitComponent](https://github.com/goldze/MVVMHabitComponent)
+
 ## About
 **goldze：** 本人喜欢尝试新的技术，以后发现有好用的东西，我将会在企业项目中实战，没有问题了就会把它引入到**MVVMHabit**中，一直维护着这套框架，谢谢各位朋友的支持。如果觉得这套框架不错的话，麻烦点个 **star**，你的支持则是我前进的动力！
 
 **QQ群**：84692105
+
 ## License
 
     Copyright 2017 goldze(曾宪泽)

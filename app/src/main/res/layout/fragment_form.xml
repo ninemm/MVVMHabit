@@ -3,11 +3,11 @@
 
     <data>
 
-        <import type="com.goldze.mvvmhabit.ui.vm.FormViewModel" />
+        <import type="com.goldze.mvvmhabit.ui.form.FormViewModel" />
 
         <variable
             name="viewModel"
-            type="FormViewModel" />
+            type="com.goldze.mvvmhabit.ui.form.FormViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,7 +19,7 @@
         <include
             android:id="@+id/include"
             layout="@layout/layout_toolbar"
-            binding:titleViewModel="@{viewModel.titleViewModel}" />
+            binding:toolbarViewModel="@{viewModel}" />
 
         <LinearLayout
             android:layout_width="match_parent"

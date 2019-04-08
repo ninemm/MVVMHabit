@@ -9,7 +9,6 @@ import com.goldze.mvvmhabit.BR;
 import com.goldze.mvvmhabit.R;
 
 import me.goldze.mvvmhabit.base.BaseFragment;
-import me.goldze.mvvmhabit.base.BaseViewModel;
 
 /**
  * Created by goldze on 2018/7/18.
@@ -26,8 +25,4 @@ public class TabBar2Fragment extends BaseFragment {
         return BR.viewModel;
     }
 
-    @Override
-    public BaseViewModel initViewModel() {
-        return new BaseViewModel();
-    }
 }

@@ -41,11 +41,6 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
     }
 
     @Override
-    public BaseViewModel initViewModel() {
-        return new BaseViewModel();
-    }
-
-    @Override
     public void initData() {
         //初始化Fragment
         initFragment();
